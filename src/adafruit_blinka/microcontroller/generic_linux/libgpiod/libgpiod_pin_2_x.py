@@ -16,9 +16,8 @@ class Pin:
     PULL_NONE = 0
     PULL_UP = 1
     PULL_DOWN = 2
-    PUSH_PULL = 0
-    OPEN_DRAIN = 1
-    OPEN_SOURCE = 2
+    PUSH_PULL = 1
+    OPEN_DRAIN = 2
     _CONSUMER = "adafruit_blinka"
 
     id = None
@@ -89,23 +88,12 @@ class Pin:
                 )
             elif mode == self.OPEN_DRAIN:
                 # Handle open drain configurations, will always be output
+                print('Open Drain configured')
                 if pull is not None:
                     raise RuntimeError("Cannot set pull resistor on output")
                 self._mode = self.OUT
                 line_config.direction = gpiod.line.Direction.OUTPUT
                 line_config.drive = gpiod.line.Drive.OPEN_DRAIN
-                self._line_request.reconfigure_lines(
-                    {
-                        int(self._num): line_config,
-                    }
-                )
-            elif mode == self.OPEN_SOURCE:
-                # Handle open drain configurations, will always be output
-                if pull is not None:
-                    raise RuntimeError("Cannot set pull resistor on output")
-                self._mode = self.OUT
-                line_config.direction = gpiod.line.Direction.OUTPUT
-                line_config.drive = gpiod.line.Drive.OPEN_SOURCE
                 self._line_request.reconfigure_lines(
                     {
                         int(self._num): line_config,
