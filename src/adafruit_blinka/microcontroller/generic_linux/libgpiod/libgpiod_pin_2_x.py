@@ -88,7 +88,6 @@ class Pin:
                 )
             elif mode == self.OPEN_DRAIN:
                 # Handle open drain configurations, will always be output
-                print('Open Drain configured')
                 if pull is not None:
                     raise RuntimeError("Cannot set pull resistor on output")
                 self._mode = self.OUT
